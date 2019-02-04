@@ -53,7 +53,7 @@ namespace FootballStore.Controllers
                 //viewModel.Category = category;
             }
 
-            /*sort the results
+            // sort the results
             switch (sortBy)
             {
                 case "price_lowest":
@@ -66,7 +66,7 @@ namespace FootballStore.Controllers
                     products = products.OrderBy(p => p.Name);
                     break;
             }
-            */
+            
 
             //const int PageItems = 10;
             //int currentPage = (page ?? 1);
@@ -77,13 +77,13 @@ namespace FootballStore.Controllers
 
             //viewModel.SortBy = sortBy;
 
-            /*
+            
             viewModel.Sorts = new Dictionary<string, string>
             {
                 {"Price low to high", "price_lowest" },
                 {"Price high to low", "price_highest" }
             };
-            */
+            
 
             //return View(products.ToList());
             return View(viewModel);
