@@ -19,7 +19,6 @@ namespace FootballStore.Models
 
         [Required(ErrorMessage = "The Product description cannot be blank")]
         [StringLength(200, MinimumLength = 5, ErrorMessage = "Please enter a product description between 5 and 200 characters in length")]
-        [RegularExpression(@"^[a-zA-Z'_'',''.'\s]*[0-9]*$", ErrorMessage = "Please enter a product description made up of only letters and spaces")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "The Product price cannot be blank")]
@@ -30,6 +29,11 @@ namespace FootballStore.Models
 
         public int? CategoryID { get; set; }
 
+        public int? BrandID { get; set; }
+
         public virtual Category Category { get; set; }
+
+        public virtual Brand Brand { get; set; }
+
     }
 }
