@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using FootballStore.Models;
 using FootballStore.OSDB;
+using FootballStore.ViewModels;
 
 namespace FootballStore.Controllers
 {
@@ -16,10 +17,76 @@ namespace FootballStore.Controllers
         private StoreContext db = new StoreContext();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string category, string search, string sortBy, int? page)
         {
+            //init new view model
+            ProductIndexViewModel viewModel = new ProductIndexViewModel();
+
             var products = db.Products.Include(p => p.Category);
-            return View(products.ToList());
+
+            /* find product where product name||description||category contains search */
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.Name.Contains(search) ||
+                p.Description.Contains(search) || p.Category.Name.Contains(search));
+                //ViewBag.Search = search;
+                viewModel.Search = search;
+            }
+
+            // group search results into categories and count items in each category
+            viewModel.CatsWithCount = from matchingProducts in products
+                                      where matchingProducts.CategoryID != null
+                                      group matchingProducts by
+                                      matchingProducts.Category.Name into catGroup
+                                      select new ProductIndexViewModel.CategoryWithCount()
+                                      {
+                                          CategoryName = catGroup.Key,
+                                          ProductCount = catGroup.Count()
+                                      };
+
+            //var categories = products.OrderBy(p => p.Category.Name).Select(P => P.Category.Name).Distinct();
+
+            if (!String.IsNullOrEmpty(category))
+            {
+                products = products.Where(p => p.Category.Name == category);
+                //viewModel.Category = category;
+            }
+
+            /*sort the results
+            switch (sortBy)
+            {
+                case "price_lowest":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                case "price_highest":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
+            */
+
+            //const int PageItems = 10;
+            //int currentPage = (page ?? 1);
+            //viewModel.Products = products.ToPagedList(currentPage, Constants.PagedItems);
+
+            //ViewBag.Category = new SelectList(categories);
+            viewModel.Products = products;
+
+            //viewModel.SortBy = sortBy;
+
+            /*
+            viewModel.Sorts = new Dictionary<string, string>
+            {
+                {"Price low to high", "price_lowest" },
+                {"Price high to low", "price_highest" }
+            };
+            */
+
+            //return View(products.ToList());
+            return View(viewModel);
         }
 
         // GET: Products/Details/5

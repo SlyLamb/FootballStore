@@ -18,7 +18,8 @@ namespace FootballStore.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            //return View(db.Categories.ToList());
+            return View(db.Categories.OrderBy(c => c.Name).ToList());
         }
 
         // GET: Categories/Details/5
@@ -111,6 +112,10 @@ namespace FootballStore.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Category category = db.Categories.Find(id);
+            foreach (var p in category.Products)
+            {
+                p.CategoryID = null;
+            }
             db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");
