@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace FootballStore.ViewModels
 {
     public class ProductIndexViewModel
     {
-        //public IPagedList<Product> Products { get; set; }
+        public IPagedList<Product> Products { get; set; }
 
-        public IQueryable<Product> Products { get; set; }
+        // public IQueryable<Product> Products { get; set; }
 
         public string Search { get; set; }
 

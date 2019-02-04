@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using FootballStore.Models;
 using FootballStore.OSDB;
 using FootballStore.ViewModels;
+using PagedList;
 
 namespace FootballStore.Controllers
 {
@@ -50,7 +51,7 @@ namespace FootballStore.Controllers
             if (!String.IsNullOrEmpty(category))
             {
                 products = products.Where(p => p.Category.Name == category);
-                //viewModel.Category = category;
+                viewModel.Category = category;
             }
 
             // sort the results
@@ -68,14 +69,14 @@ namespace FootballStore.Controllers
             }
             
 
-            //const int PageItems = 10;
-            //int currentPage = (page ?? 1);
-            //viewModel.Products = products.ToPagedList(currentPage, Constants.PagedItems);
+            const int PageItems = 7;
+            int currentPage = (page ?? 1);
+            viewModel.Products = products.ToPagedList(currentPage, PageItems);
 
             //ViewBag.Category = new SelectList(categories);
-            viewModel.Products = products;
+            //viewModel.Products = products;
 
-            //viewModel.SortBy = sortBy;
+            viewModel.SortBy = sortBy;
 
             
             viewModel.Sorts = new Dictionary<string, string>
