@@ -14,7 +14,7 @@ namespace FootballStore.Migrations
             AutomaticMigrationsEnabled = false;
             ContextKey = "FootballStore.OSDB.StoreContext";
         }
-        /*
+
         protected override void Seed(FootballStore.OSDB.StoreContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -44,7 +44,7 @@ namespace FootballStore.Migrations
             };
             brands.ForEach(c => context.Brands.AddOrUpdate(p => p.Name, c));
             context.SaveChanges();
-            
+
             // Seed products to database
             var products = new List<Product>
             {
@@ -115,9 +115,20 @@ namespace FootballStore.Migrations
                 new Product { Name = "Red", Description = "Football shorts.", Price = 27, CategoryID = categories.Single(c => c.Name == "Shorts").ID, BrandID = brands.Single(b => b.Name == "Umbro").ID },
                 new Product { Name = "Yellow", Description = "Football shorts.", Price = 28.99M, CategoryID = categories.Single(c => c.Name == "Shorts").ID, BrandID = brands.Single(b => b.Name == "Umbro").ID }
             };
-            products.ForEach(c => context.Products.AddOrUpdate(p => p.Name, c));
+            //products.ForEach(c => context.Products.AddOrUpdate(p => p.Name, c));
+            //context.SaveChanges();
+            foreach (Product p in products)
+            {
+                var productInDatabase = context.Products.Where(
+                    pro => pro.Name == p.Name &&
+                    pro.CategoryID == p.CategoryID &&
+                    pro.BrandID == p.BrandID).SingleOrDefault();
+                if (productInDatabase == null)
+                {
+                    context.Products.Add(p);
+                }
+            }
             context.SaveChanges();
         }
-        */
     }
 }
