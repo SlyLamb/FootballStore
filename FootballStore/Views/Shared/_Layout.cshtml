@@ -29,7 +29,7 @@
                     @*<li>@Html.RouteLink("Products", "ProductsIndex")</li>*@
                     <li>@Html.ActionLink("Images", "Index", "ProductImages")</li>
                 </ul>
-                @*using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "navbar-form navbar-left" }))*@
+                @*using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "navbar-form navbar-left" }))  !!!REMOVE THIS LINE!!! *@
                 @*using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get, new { @class = "navbar-form navbar-left" }))*@
                 @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
                 {

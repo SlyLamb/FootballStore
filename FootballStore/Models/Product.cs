@@ -35,5 +35,7 @@ namespace FootballStore.Models
 
         public virtual Brand Brand { get; set; }
 
+        public virtual ICollection<ProductImageMapping> ProductImageMappings { get; set; }
+
     }
 }
