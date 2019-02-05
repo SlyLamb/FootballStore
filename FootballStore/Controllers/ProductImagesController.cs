@@ -61,7 +61,7 @@ namespace FootballStore.Controllers
             if (files[0] != null)
             {
                 // if less than 10 files
-                if (files.Length <= 10)
+                if (files.Length <= 20)
                 {
                     // check if files are valid
                     foreach (var file in files)
