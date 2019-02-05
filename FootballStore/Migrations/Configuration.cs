@@ -14,7 +14,7 @@ namespace FootballStore.Migrations
             AutomaticMigrationsEnabled = false;
             ContextKey = "FootballStore.OSDB.StoreContext";
         }
-
+        /*
         protected override void Seed(FootballStore.OSDB.StoreContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -118,5 +118,6 @@ namespace FootballStore.Migrations
             products.ForEach(c => context.Products.AddOrUpdate(p => p.Name, c));
             context.SaveChanges();
         }
+        */
     }
 }

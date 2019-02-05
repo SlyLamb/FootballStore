@@ -69,9 +69,9 @@ namespace FootballStore.Controllers
             }
             
 
-            const int PageItems = 7;
+            //const int PageItems = 5;
             int currentPage = (page ?? 1);
-            viewModel.Products = products.ToPagedList(currentPage, PageItems);
+            viewModel.Products = products.ToPagedList(currentPage, Constants.PagedItems);
 
             //ViewBag.Category = new SelectList(categories);
             //viewModel.Products = products;
