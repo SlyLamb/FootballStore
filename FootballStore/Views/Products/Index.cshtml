@@ -37,6 +37,9 @@
             @Html.DisplayNameFor(model => model.Products.First().Name)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Products.First().Brand.Name)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Products.First().Description)
         </th>
         <th>
@@ -47,33 +50,36 @@
 
     @foreach (var item in Model.Products)
     {
-        <tr>
-            <td>
-                @if (item.ProductImageMappings != null && item.ProductImageMappings.Any())
-                {
-                    <a href="@Url.Action("Details",new { id = item.ID})">
-                        <img src="@(Url.Content(Constants.ProductThumbnailPath) + item.ProductImageMappings.OrderBy(pim => pim.ImageNumber).ElementAt(0).ProductImage.FileName)" />
-                    </a>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @if (item.ProductImageMappings != null && item.ProductImageMappings.Any())
+            {
+                <a href="@Url.Action("Details",new { id = item.ID})">
+                    <img src="@(Url.Content(Constants.ProductThumbnailPath) + item.ProductImageMappings.OrderBy(pim => pim.ImageNumber).ElementAt(0).ProductImage.FileName)" />
+                </a>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brand.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+    </tr>
     }
 
 </table>
