@@ -17,8 +17,10 @@ namespace FootballStore.ViewModels
         public string Search { get; set; }
 
         public IEnumerable<CategoryWithCount> CatsWithCount { get; set; }
+        public IEnumerable<BrandWithCount> BrandsWithCount { get; set; }
 
         public string Category { get; set; }
+        public string Brand { get; set; }
 
         public string SortBy { get; set; }
 
@@ -36,6 +38,18 @@ namespace FootballStore.ViewModels
                 return allCats;
             }
         }
+        public IEnumerable<SelectListItem> BrandFilterItems
+        {
+            get
+            {
+                var allBrands = BrandsWithCount.Select(bc => new SelectListItem
+                {
+                    Value = bc.BrandName,
+                    Text = bc.BrandNameWithCount
+                });
+                return allBrands;
+            }
+        }
 
         public class CategoryWithCount
         {
@@ -46,6 +60,18 @@ namespace FootballStore.ViewModels
                 get
                 {
                     return CategoryName + " (" + ProductCount.ToString() + ")";
+                }
+            }
+        }
+        public class BrandWithCount
+        {
+            public int ProductCount { get; set; }
+            public string BrandName { get; set; }
+            public string BrandNameWithCount
+            {
+                get
+                {
+                    return BrandName + " (" + ProductCount.ToString() + ")";
                 }
             }
         }

@@ -18,7 +18,7 @@ namespace FootballStore.Controllers
         private StoreContext db = new StoreContext();
 
         // GET: Products
-        public ActionResult Index(string category, string search, string sortBy, int? page)
+        public ActionResult Index(string category, string brand, string search, string sortBy, int? page)
         {
             //init new view model
             ProductIndexViewModel viewModel = new ProductIndexViewModel();
@@ -30,7 +30,8 @@ namespace FootballStore.Controllers
             if (!String.IsNullOrEmpty(search))
             {
                 products = products.Where(p => p.Name.Contains(search) ||
-                p.Description.Contains(search) || p.Category.Name.Contains(search));
+                p.Description.Contains(search) || p.Category.Name.Contains(search) ||
+                p.Brand.Name.Contains(search));
                 //ViewBag.Search = search;
                 viewModel.Search = search;
             }
@@ -45,6 +46,16 @@ namespace FootballStore.Controllers
                                           CategoryName = catGroup.Key,
                                           ProductCount = catGroup.Count()
                                       };
+            // group search results into brands and count items in each brand
+            viewModel.BrandsWithCount = from matchingProducts in products
+                                        where matchingProducts.BrandID != null
+                                        group matchingProducts by
+                                        matchingProducts.Brand.Name into brandGroup
+                                        select new ProductIndexViewModel.BrandWithCount()
+                                        {
+                                            BrandName = brandGroup.Key,
+                                            ProductCount = brandGroup.Count()
+                                        };
 
             //var categories = products.OrderBy(p => p.Category.Name).Select(P => P.Category.Name).Distinct();
 
@@ -53,7 +64,11 @@ namespace FootballStore.Controllers
                 products = products.Where(p => p.Category.Name == category);
                 viewModel.Category = category;
             }
-
+            if (!String.IsNullOrEmpty(brand))
+            {
+                products = products.Where(p => p.Brand.Name == brand);
+                viewModel.Brand = brand;
+            }
             // sort the results
             switch (sortBy)
             {

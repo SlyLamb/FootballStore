@@ -44,7 +44,6 @@ namespace FootballStore.Migrations
             };
             brands.ForEach(c => context.Brands.AddOrUpdate(p => p.Name, c));
             context.SaveChanges();
-
             // Seed products to database
             var products = new List<Product>
             {
