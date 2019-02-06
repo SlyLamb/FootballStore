@@ -13,7 +13,7 @@ namespace FootballStore.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201902052124280_Initial"; }
+            get { return "201902060426372_Initial"; }
         }
         
         string IMigrationMetadata.Source
