@@ -105,5 +105,61 @@ namespace FootballStore
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+        public class ApplicationRoleManager : RoleManager<IdentityRole>
+        {
+            public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore) : base(roleStore)
+            {
+
+            }
+            public static ApplicationRoleManager
+                Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+            {
+                return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+            }
+        }
+
+        public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+        {
+            protected override void Seed(ApplicationDbContext context)
+            {
+                InitializeIdentityForEF(context);
+                base.Seed(context);
+            }
+
+            private static void InitializeIdentityForEF(ApplicationDbContext context)
+            {
+                var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+                const string name = "admin@onlinestore.com";
+                const string password = "Admin@OnlineStore.com";
+                const string roleName = "Admin";
+                // Create Admin role if it doesn't exist yet
+                var role = roleManager.FindByName(roleName);
+                if (role == null)
+                {
+                    role = new IdentityRole(roleName);
+                    var roleResult = roleManager.Create(role);
+                }
+                // Create user if name not yet taken
+                var user = userManager.FindByName(name);
+                if (user == null)
+                {
+                    user = new ApplicationUser
+                    {
+                        UserName = name,
+                        Email = name
+                    };
+                    var result = userManager.Create(user, password);
+                    result = userManager.SetLockoutEnabled(user.Id, false);
+                }
+                // Add user admin to role admin if not already done
+                var rolesForUser = userManager.GetRoles(user.Id);
+                if (!rolesForUser.Contains(role.Name))
+                {
+                    var result = userManager.AddToRole(user.Id, role.Name);
+                }
+            }
+        }
     }
 }
