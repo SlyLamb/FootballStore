@@ -297,6 +297,7 @@
     <Content Include="Views\Brands\Index.cshtml" />
     <Content Include="Views\RolesAdmin\Index.cshtml" />
     <Content Include="Views\RolesAdmin\Details.cshtml" />
+    <Content Include="Views\RolesAdmin\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\ProductImages\Thumbnails\" />

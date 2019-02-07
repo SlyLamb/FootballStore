@@ -8,6 +8,8 @@ using static FootballStore.ApplicationSignInManager;
 using System.Net;
 using System.Threading.Tasks;
 using FootballStore.Models;
+using FootballStore.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FootballStore.Controllers
 {
@@ -83,18 +85,20 @@ namespace FootballStore.Controllers
 
         // POST: RolesAdmin/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public async Task<ActionResult> Create(RoleViewModel roleViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                var role = new IdentityRole(roleViewModel.Name);
+                var roleResult = await RoleManager.CreateAsync(role);
+                if (!roleResult.Succeeded)
+                {
+                    ModelState.AddModelError("", roleResult.Errors.First());
+                    return View();
+                }
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: RolesAdmin/Edit/5
