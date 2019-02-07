@@ -149,9 +149,9 @@ namespace FootballStore
                     {
                         UserName = name,
                         Email = name,
-                        LockoutEnabled = false
                     };
                     var result = userManager.Create(user, password);
+                    result = userManager.SetLockoutEnabled(user.Id, false);
                 }
                 // Add user admin to role admin if not already done
                 var rolesForUser = userManager.GetRoles(user.Id);
