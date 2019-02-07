@@ -6,6 +6,9 @@ namespace FootballStore.Migrations
     using System.Linq;
     using Models;
     using System.Collections.Generic;
+    using System.Web;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.AspNet.Identity;
 
     internal sealed class Configuration : DbMigrationsConfiguration<FootballStore.OSDB.StoreContext>
     {

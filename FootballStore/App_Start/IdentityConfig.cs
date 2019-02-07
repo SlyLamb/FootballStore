@@ -5,9 +5,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using FootballStore.Models;
@@ -113,7 +113,7 @@ namespace FootballStore
 
             }
             public static ApplicationRoleManager
-                Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+                Create(IdentityFactoryOptions<ApplicationRoleManager>options, IOwinContext context)
             {
                 return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
             }
@@ -131,8 +131,8 @@ namespace FootballStore
             {
                 var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-                const string name = "admin@onlinestore.com";
-                const string password = "Admin@OnlineStore.com";
+                const string name = "admin1@OnlineStore.com";
+                const string password = "Admin1@OnlineStore.com";
                 const string roleName = "Admin";
                 // Create Admin role if it doesn't exist yet
                 var role = roleManager.FindByName(roleName);
@@ -148,10 +148,10 @@ namespace FootballStore
                     user = new ApplicationUser
                     {
                         UserName = name,
-                        Email = name
+                        Email = name,
+                        LockoutEnabled = false
                     };
                     var result = userManager.Create(user, password);
-                    result = userManager.SetLockoutEnabled(user.Id, false);
                 }
                 // Add user admin to role admin if not already done
                 var rolesForUser = userManager.GetRoles(user.Id);
