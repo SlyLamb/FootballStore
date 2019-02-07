@@ -5,9 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using static FootballStore.ApplicationSignInManager;
+using System.Net;
+using System.Threading.Tasks;
+using FootballStore.Models;
 
 namespace FootballStore.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {
         public RolesAdminController()
@@ -50,9 +54,25 @@ namespace FootballStore.Controllers
         }
 
         // GET: RolesAdmin/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = await RoleManager.FindByIdAsync(id);
+            // Get users in this role
+            var users = new List<ApplicationUser>();
+            foreach (var user in UserManager.Users.ToList())
+            {
+                if (await UserManager.IsInRoleAsync(user.Id, role.Name))
+                {
+                    users.Add(user);
+                }
+            }
+            ViewBag.Users = users;
+            ViewBag.UserCount = users.Count();
+            return View(role);
         }
 
         // GET: RolesAdmin/Create
