@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
@@ -46,15 +49,21 @@ namespace FootballStore.Controllers
             }
         }
         // GET: UsersAdmin
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            return View(await UserManager.Users.ToListAsync());
         }
 
         // GET: UsersAdmin/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await UserManager.FindByIdAsync(id);
+            ViewBag.RoleNames = await UserManager.GetRolesAsync(user.Id);
+            return View(user);
         }
 
         // GET: UsersAdmin/Create
