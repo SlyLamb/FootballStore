@@ -132,7 +132,7 @@ namespace FootballStore
                 var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
                 const string name = "admin1@OnlineStore.com";
-                const string password = "Admin1@OnlineStore.com";
+                const string password = "Admin1@Onlinestore.com";
                 const string roleName = "Admin";
                 // Create Admin role if it doesn't exist yet
                 var role = roleManager.FindByName(roleName);
@@ -149,6 +149,16 @@ namespace FootballStore
                     {
                         UserName = name,
                         Email = name,
+                        FirstName = "Admin",
+                        LastName = "Admin",
+                        DateOfBirth = new DateTime(2019, 2, 1),
+                        Address = new Address
+                        {
+                            AddressLine1 = "1 Admin Road",
+                            Town = "Town",
+                            Country = "Country",
+                            PostCode = "PostCode"
+                        }
                     };
                     var result = userManager.Create(user, password);
                     result = userManager.SetLockoutEnabled(user.Id, false);
@@ -158,6 +168,14 @@ namespace FootballStore
                 if (!rolesForUser.Contains(role.Name))
                 {
                     var result = userManager.AddToRole(user.Id, role.Name);
+                }
+                // Create user role
+                const string userRoleName = "Users";
+                role = roleManager.FindByName(userRoleName);
+                if (role == null)
+                {
+                    role = new IdentityRole(userRoleName);
+                    var roleresult = roleManager.Create(role);
                 }
             }
         }

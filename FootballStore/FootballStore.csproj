@@ -190,11 +190,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902060426372_Initial.cs" />
-    <Compile Include="Migrations\201902060426372_Initial.Designer.cs">
-      <DependentUpon>201902060426372_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201902062031418_InitialCreate.cs" />
+    <Compile Include="Migrations\201902062031418_InitialCreate.Designer.cs">
+      <DependentUpon>201902062031418_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902072058293_twocontextreset.cs" />
+    <Compile Include="Migrations\201902072058293_twocontextreset.Designer.cs">
+      <DependentUpon>201902072058293_twocontextreset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902072103220_update_user_fields.cs" />
+    <Compile Include="Migrations\201902072103220_update_user_fields.Designer.cs">
+      <DependentUpon>201902072103220_update_user_fields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\StoreConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -321,8 +330,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902060426372_Initial.resx">
-      <DependentUpon>201902060426372_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902062031418_InitialCreate.resx">
+      <DependentUpon>201902062031418_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902072058293_twocontextreset.resx">
+      <DependentUpon>201902072058293_twocontextreset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902072103220_update_user_fields.resx">
+      <DependentUpon>201902072103220_update_user_fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
