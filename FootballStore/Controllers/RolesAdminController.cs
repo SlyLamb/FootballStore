@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FootballStore.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {
         public RolesAdminController()
