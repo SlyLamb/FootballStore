@@ -315,6 +315,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <Content Include="Views\UsersAdmin\Details.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Address.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\ProductImages\Thumbnails\" />
