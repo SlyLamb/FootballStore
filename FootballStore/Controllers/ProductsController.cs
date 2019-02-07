@@ -128,6 +128,7 @@ namespace FootballStore.Controllers
 
             ProductViewModel viewModel = new ProductViewModel();
             viewModel.CategoryList = new SelectList(db.Categories, "ID", "Name");
+            viewModel.BrandList = new SelectList(db.Brands, "ID", "Name");
             viewModel.ImageLists = new List<SelectList>();
             for (int i = 0; i < Constants.NumberOfProductImages; ++i)
             {
@@ -149,6 +150,7 @@ namespace FootballStore.Controllers
             product.Description = viewModel.Description;
             product.Price = viewModel.Price;
             product.CategoryID = viewModel.CategoryID;
+            product.BrandID = viewModel.BrandID;
             product.ProductImageMappings = new List<ProductImageMapping>();
 
             //get a list of selected Images without any blanks
@@ -170,6 +172,7 @@ namespace FootballStore.Controllers
             }
 
             viewModel.CategoryList = new SelectList(db.Categories, "ID", "Name", product.CategoryID);
+            viewModel.BrandList = new SelectList(db.Brands, "ID", "Name", product.BrandID);
             viewModel.ImageLists = new List<SelectList>();
 
             for (int i = 0; i < Constants.NumberOfProductImages; i++)
@@ -198,6 +201,7 @@ namespace FootballStore.Controllers
 
             ProductViewModel viewModel = new ProductViewModel();
             viewModel.CategoryList = new SelectList(db.Categories, "ID", "Name", product.CategoryID);
+            viewModel.BrandList = new SelectList(db.Brands, "ID", "Name", product.BrandID);
             viewModel.ImageLists = new List<SelectList>();
 
             foreach (var imageMapping in product.ProductImageMappings.OrderBy(pim => pim.ImageNumber))

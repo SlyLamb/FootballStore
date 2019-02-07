@@ -27,6 +27,9 @@ namespace FootballStore.ViewModels
         [DisplayFormat(DataFormatString = "{0:c}")]
         public decimal Price { get; set; }
 
+        [Display(Name = "Brand")]
+        public int BrandID { get; set; }
+        public SelectList BrandList { get; set; }
 
         [Display(Name = "Category")]
         public int CategoryID { get; set; }
