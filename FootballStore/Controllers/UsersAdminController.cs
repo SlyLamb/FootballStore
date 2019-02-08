@@ -67,8 +67,10 @@ namespace FootballStore.Controllers
         }
 
         // GET: UsersAdmin/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            // Get list of roles
+            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
             return View();
         }
 
