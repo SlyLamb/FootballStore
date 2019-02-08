@@ -13,11 +13,13 @@ using PagedList;
 
 namespace FootballStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private StoreContext db = new StoreContext();
 
         // GET: Products
+        [AllowAnonymous]
         public ActionResult Index(string category, string brand, string search, string sortBy, int? page)
         {
             //init new view model
@@ -106,6 +108,7 @@ namespace FootballStore.Controllers
         }
 
         // GET: Products/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
