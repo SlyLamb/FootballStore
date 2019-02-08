@@ -11,11 +11,13 @@ using FootballStore.OSDB;
 
 namespace FootballStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BrandsController : Controller
     {
         private StoreContext db = new StoreContext();
 
         // GET: Brands
+        [AllowAnonymous]
         public ActionResult Index()
         {
             //return View(db.Brands.ToList());
