@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using FootballStore.Models;
 using Microsoft.AspNet.Identity.Owin;
 using static FootballStore.ApplicationSignInManager;
 
@@ -76,18 +77,44 @@ namespace FootballStore.Controllers
 
         // POST: UsersAdmin/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(RegisterViewModel viewModel, params string[] selectedRoles)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                var user = new ApplicationUser
+                {
+                    UserName = viewModel.Email,
+                    Email = viewModel.Email,
+                    DateOfBirth = viewModel.DateOfBirth,
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName,
+                    Address = viewModel.Address
+                };
+                var adminresult = await UserManager.CreateAsync(user, viewModel.Password);
+                // Add user to selected roles
+                if (adminresult.Succeeded)
+                {
+                    if (selectedRoles != null)
+                    {
+                        var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
+                        if (!result.Succeeded)
+                        {
+                            ModelState.AddModelError("", result.Errors.First());
+                            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+                            return View();
+                        }
+                    }
+                } else
+                {
+                    ModelState.AddModelError("", adminresult.Errors.First());
+                    ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
+                    return View();
+                }
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
+            return View();
         }
 
         // GET: UsersAdmin/Edit/5
