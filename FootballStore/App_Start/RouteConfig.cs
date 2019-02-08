@@ -22,7 +22,7 @@ namespace FootballStore
             //routes.MapRoute(
             //    name: "ProductsByBrandByPage",
             //    url: "Products/{brand}/Page{page}",
-            //    defaults: new { controller = "Products", actions = "Index" }
+            //    defaults: new { controller = "Products", action = "Index" }
             //    );
 
             routes.MapRoute(

@@ -99,6 +99,7 @@
     @Html.PagedListPager(Model.Products, page => Url.Action("Index", new
 {
     category = @Model.Category,
+    brand = @Model.Brand,
     Search = @Model.Search,
     sortBy = @Model.SortBy,
     page
