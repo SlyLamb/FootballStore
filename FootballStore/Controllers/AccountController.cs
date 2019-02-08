@@ -147,14 +147,23 @@ namespace FootballStore.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser {
+                    UserName = viewModel.Email,
+                    Email = viewModel.Email,
+                    DateOfBirth = viewModel.DateOfBirth,
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName,
+                    Address = viewModel.Address
+                };
+                var result = await UserManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
+                    // Anyone registering to website will be on the Users role by default
+                    await UserManager.AddToRoleAsync(user.Id, "Users");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -169,7 +178,7 @@ namespace FootballStore.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(viewModel);
         }
 
         //
