@@ -19,16 +19,16 @@ namespace FootballStore
                 defaults: new { controller = "Products", action = "Create" }
                 );
 
+            //routes.MapRoute(
+            //    name: "ProductsByBrandByPage",
+            //    url: "Products/{brand}/Page{page}",
+            //    defaults: new { controller = "Products", actions = "Index" }
+            //    );
+
             routes.MapRoute(
                 name: "ProductsByCategoryByPage",
                 url: "Products/{category}/Page{page}",
                 defaults: new { controller = "Products", action = "Index" }
-                );
-
-            routes.MapRoute(
-                name: "ProductsByBrandByPage",
-                url: "Products/{brand}/Page{page}",
-                defaults: new { controller = "Products", actions = "Index" }
                 );
 
             routes.MapRoute(
@@ -38,17 +38,17 @@ namespace FootballStore
                 );
 
             routes.MapRoute(
-                name: "ProductsByCategory",
-                url: "Products/{category}",
-                defaults: new { controller = "Products", action = "Index" }
-                );
-
-            routes.MapRoute(
                name: "ProductsByBrand",
                url: "Products/{brand}",
                defaults: new { controller = "Products", action = "Index" }
                );
 
+            routes.MapRoute(
+                name: "ProductsByCategory",
+                url: "Products/{category}",
+                defaults: new { controller = "Products", action = "Index" }
+                );
+            
             routes.MapRoute(
                 name: "ProductsIndex",
                 url: "Products",
