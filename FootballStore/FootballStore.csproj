@@ -179,6 +179,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\BrandsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -203,10 +204,16 @@
     <Compile Include="Migrations\201902072103220_update_user_fields.Designer.cs">
       <DependentUpon>201902072103220_update_user_fields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902090035084_AddBasketLine.cs" />
+    <Compile Include="Migrations\201902090035084_AddBasketLine.Designer.cs">
+      <DependentUpon>201902090035084_AddBasketLine.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\StoreConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Basket.cs" />
+    <Compile Include="Models\BasketLine.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -218,6 +225,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AdminViewModel.cs" />
+    <Compile Include="ViewModels\BasketViewModel.cs" />
     <Compile Include="ViewModels\ProductIndexViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
   </ItemGroup>
@@ -323,6 +331,7 @@
     <Content Include="Views\Shared\_UserDetailsPartial.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Shared\_EditUserPartial.cshtml" />
+    <Content Include="Views\Basket\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\ProductImages\Thumbnails\" />
@@ -349,6 +358,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902072103220_update_user_fields.resx">
       <DependentUpon>201902072103220_update_user_fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902090035084_AddBasketLine.resx">
+      <DependentUpon>201902090035084_AddBasketLine.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -18,5 +18,7 @@ namespace FootballStore.OSDB
         public DbSet<ProductImage> ProductImages { get; set; }
 
         public DbSet<ProductImageMapping> ProductImageMappings { get; set; }
+
+        public DbSet<BasketLine> BasketLines { get; set; }
     }
 }
