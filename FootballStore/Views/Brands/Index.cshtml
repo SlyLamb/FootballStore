@@ -8,7 +8,7 @@
 
 @if (Request.IsAuthenticated && User.IsInRole("Admin"))
 {
-    <p>@Html.ActionLink("Create New", "Create")</p>
+    <p class="large-bold-text">@Html.ActionLink("Create New", "Create")</p>
 }
 
 <table class="table">
@@ -22,12 +22,11 @@
     @foreach (var item in Model)
     {
     <tr>
-        <td>
+        <td class="large-text">
             @*@Html.DisplayFor(modelItem => item.Name)*@
             @Html.ActionLink(item.Name, "Index", "Products", new { brand = item.Name }, null)
         </td>
-        <td>
-        <td>
+        <td class="large-text">
             @if (Request.IsAuthenticated && User.IsInRole("Admin"))
             {
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID })

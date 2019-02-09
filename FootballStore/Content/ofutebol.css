@@ -1,0 +1,37 @@
+﻿img {
+    border: 3px solid deepskyblue;
+    border-radius: 3px;
+}
+
+footer {
+    margin-bottom: 20px;
+    background-color: deepskyblue;
+    color: white;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.jumbotron {
+    color: deepskyblue;
+    background-color: dimgray;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.navbar-static-top {
+    background-color: deepskyblue;
+    font-weight: bold;
+}
+
+.nav .navbar-nav li {
+    color: black;
+}
+
+.form-control {
+    color: black;
+    background-color: grey;
+}
+
+.table {
+    display: inline-block;
+}
