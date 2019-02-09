@@ -50,7 +50,11 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>
+                &copy; Feb 2019 - O Futebol Online Store |
+                @Html.ActionLink("About", "About", "Home") |
+                @Html.ActionLink("Contact", "Contact", "Home")
+            </p> 
         </footer>
     </div>
 
