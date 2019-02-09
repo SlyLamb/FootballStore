@@ -37,11 +37,11 @@ namespace FootballStore
                 defaults: new { controller = "Products", action = "Index" }
                 );
 
-            routes.MapRoute(
-               name: "ProductsByBrand",
-               url: "Products/{brand}",
-               defaults: new { controller = "Products", action = "Index" }
-               );
+            //routes.MapRoute(
+            //   name: "ProductsByBrand",
+            //   url: "Products/{brand}",
+            //   defaults: new { controller = "Products", action = "Index" }
+            //   );
 
             routes.MapRoute(
                 name: "ProductsByCategory",

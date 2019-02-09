@@ -24,7 +24,8 @@
         <tr>
             <td>
                 @* Html.DisplayFor(modelItem => item.Name) *@
-                @Html.ActionLink(item.Name, "Index", "Products", new { category = item.Name }, null)
+                @*@Html.ActionLink(item.Name, "Index", "Products", new { category = item.Name }, null)*@
+                @Html.RouteLink(item.Name, "ProductsByCategory", new { category = item.Name}, null)
             </td>
             <td>
                 @if (Request.IsAuthenticated && User.IsInRole("Admin"))
