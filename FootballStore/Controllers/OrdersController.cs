@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using FootballStore.Models;
 using FootballStore.OSDB;
+using Microsoft.AspNet.Identity.Owin;
+using static FootballStore.ApplicationSignInManager;
+using System.Threading.Tasks;
 
 namespace FootballStore.Controllers
 {
@@ -15,6 +18,32 @@ namespace FootballStore.Controllers
     public class OrdersController : Controller
     {
         private StoreContext db = new StoreContext();
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private ApplicationRoleManager _roleManager;
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
 
         // GET: Orders
         public ActionResult Index()
@@ -56,18 +85,38 @@ namespace FootballStore.Controllers
 
         }
 
-        // GET: Orders/Create
-        public ActionResult Create()
+        // GET: Orders/Review
+        public async Task<ActionResult> Review()
         {
-            return View();
+            Basket basket = Basket.GetBasket();
+            Order order = new Models.Order();
+            order.UserID = User.Identity.Name;
+            ApplicationUser user = await UserManager.FindByNameAsync(order.UserID);
+            order.DeliveryName = user.FirstName + " " + user.LastName;
+            order.DeliveryAddress = user.Address;
+            order.OrderLines = new List<OrderLine>();
+            foreach (var basketLine in basket.GetBasketLines())
+            {
+                OrderLine line = new OrderLine
+                {
+                    Product = basketLine.Product,
+                    ProductID = basketLine.ProductID,
+                    ProductName = basketLine.Product.Name,
+                    Quantity = basketLine.Quantity,
+                    UnitPrice = basketLine.Product.Price
+                };
+                order.OrderLines.Add(line);
+            }
+            order.TotalPrice = basket.GetTotalCost();
+            return View(order);
         }
 
-        // POST: Orders/Create
+        // POST: Orders/Review
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderID,UserID,DeliveryName,DeliveryAddress,TotalPrice,DateCreated")] Order order)
+        public ActionResult Review([Bind(Include = "OrderID,UserID,DeliveryName,DeliveryAddress,TotalPrice,DateCreated")] Order order)
         {
             if (ModelState.IsValid)
             {
