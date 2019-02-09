@@ -46,16 +46,69 @@ namespace FootballStore.Controllers
         }
 
         // GET: Orders
-        public ActionResult Index()
+        public ActionResult Index(string orderSearch, string startDate, string endDate, string orderSortOrder)
         {
-            if (User.IsInRole("Admin"))
+            var orders = db.Orders.OrderBy(o => o.DateCreated).Include(o => o.OrderLines);
+            if (!User.IsInRole("Admin"))
             {
-                return View(db.Orders.ToList());
+                // return View(db.Orders.ToList());
+                orders = orders.Where(o => o.UserID == User.Identity.Name);
             }
-            else
+            if (!String.IsNullOrEmpty(orderSearch))
             {
-                return View(db.Orders.Where(o => o.UserID == User.Identity.Name));
+                orders = orders.Where(
+                    o => o.OrderID.ToString().Equals(orderSearch) ||
+                    o.UserID.Contains(orderSearch) || 
+                    o.DeliveryName.Contains(orderSearch) ||
+                    o.DeliveryAddress.AddressLine1.Contains(orderSearch) ||
+                    o.DeliveryAddress.AddressLine2.Contains(orderSearch) ||
+                    o.DeliveryAddress.Town.Contains(orderSearch) ||
+                    o.DeliveryAddress.Country.Contains(orderSearch) ||
+                    o.DeliveryAddress.PostCode.Contains(orderSearch) ||
+                    o.TotalPrice.ToString().Equals(orderSearch) ||
+                    o.OrderLines.Any(ol => ol.ProductName.Contains(orderSearch)));
             }
+
+            DateTime parsedStartDate;
+            if (DateTime.TryParse(startDate, out parsedStartDate))
+            {
+                orders = orders.Where(o => o.DateCreated >= parsedStartDate);
+            }
+            DateTime parsedEndDate;
+            if (DateTime.TryParse(endDate, out parsedEndDate))
+            {
+                orders = orders.Where(o => o.DateCreated <= parsedEndDate);
+            }
+
+            ViewBag.DateSort = String.IsNullOrEmpty(orderSortOrder) ? "date" : "";
+            ViewBag.UserSort = orderSortOrder == "user" ? "user_desc" : "user";
+            ViewBag.PriceSort = orderSortOrder == "price" ? "price_desc" : "price";
+            ViewBag.CurrentOrderSearch = orderSearch;
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+            switch (orderSortOrder)
+            {
+                case "user":
+                    orders = orders.OrderBy(o => o.UserID);
+                    break;
+                case "user_desc":
+                    orders = orders.OrderByDescending(o => o.UserID);
+                    break;
+                case "price":
+                    orders = orders.OrderBy(o => o.TotalPrice);
+                    break;
+                case "price_desc":
+                    orders = orders.OrderByDescending(o => o.TotalPrice);
+                    break;
+                case "date":
+                    orders = orders.OrderBy(o => o.DateCreated);
+                    break;
+                default:
+                    orders = orders.OrderByDescending(o => o.DateCreated);
+                    break;
+            }
+
+            return View(orders);
         }
 
         // GET: Orders/Details/5
@@ -116,16 +169,21 @@ namespace FootballStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Review([Bind(Include = "OrderID,UserID,DeliveryName,DeliveryAddress,TotalPrice,DateCreated")] Order order)
+        public ActionResult Review([Bind(Include = "UserID,DeliveryName,DeliveryAddress")] Order order)
         {
             if (ModelState.IsValid)
             {
+                order.DateCreated = DateTime.Now;
                 db.Orders.Add(order);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                //add the orderlines to the database after creating the order
 
-            return View(order);
+                Basket basket = Basket.GetBasket();
+                order.TotalPrice = basket.CreateOrderLines(order.OrderID);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = order.OrderID });
+            }
+            return RedirectToAction("Review");
         }
 
         // GET: Orders/Edit/5
